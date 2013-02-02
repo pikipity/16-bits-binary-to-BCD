@@ -1,0 +1,103 @@
+BL51 BANKED LINKER/LOCATER V6.00                                                        02/02/2013  17:28:36  PAGE 1
+
+
+BL51 BANKED LINKER/LOCATER V6.00, INVOKED BY:
+C:\KEIL\C51\BIN\BL51.EXE unsigned_division.obj TO unsigned_division
+
+
+INPUT MODULES INCLUDED:
+  unsigned_division.obj (UNSIGNED_DIVISION)
+
+
+LINK MAP OF MODULE:  unsigned_division (UNSIGNED_DIVISION)
+
+
+            TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
+            -----------------------------------------------------
+
+            * * * * * * *   D A T A   M E M O R Y   * * * * * * *
+            REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
+
+            * * * * * * *   C O D E   M E M O R Y   * * * * * * *
+            CODE    0000H     006FH     ABSOLUTE     
+
+
+
+SYMBOL TABLE OF MODULE:  unsigned_division (UNSIGNED_DIVISION)
+
+  VALUE           TYPE          NAME
+  ----------------------------------
+
+  -------         MODULE        UNSIGNED_DIVISION
+  D:00E0H         SYMBOL        ACC
+  D:00F0H         SYMBOL        B
+  C:0002H         SYMBOL        DIVISION
+  C:0026H         SYMBOL        DIVISION_LOOP
+  C:0047H         SYMBOL        DIVISION_LOOP_DICISION
+  C:0041H         SYMBOL        DIVISION_QUOTIENT_SET_0
+  C:0037H         SYMBOL        DIVISION_QUOTIENT_SET_1
+  D:0090H         SYMBOL        P1
+  D:00A0H         SYMBOL        P2
+  D:00B0H         SYMBOL        P3
+  C:0053H         SYMBOL        START
+  C:0000H         LINE#         2
+  C:0002H         LINE#         11
+  C:0004H         LINE#         12
+  C:0006H         LINE#         13
+  C:0007H         LINE#         15
+  C:000AH         LINE#         16
+  C:000DH         LINE#         17
+  C:0010H         LINE#         18
+  C:0013H         LINE#         19
+  C:0016H         LINE#         21
+  C:0018H         LINE#         22
+  C:001AH         LINE#         23
+  C:001CH         LINE#         24
+  C:001DH         LINE#         26
+  C:001FH         LINE#         28
+  C:0021H         LINE#         29
+  C:0023H         LINE#         31
+  C:0026H         LINE#         34
+  C:0028H         LINE#         35
+BL51 BANKED LINKER/LOCATER V6.00                                                      02/02/2013  17:28:36  PAGE 2
+
+
+  C:0029H         LINE#         36
+  C:002BH         LINE#         38
+  C:002DH         LINE#         39
+  C:002EH         LINE#         40
+  C:0030H         LINE#         42
+  C:0031H         LINE#         43
+  C:0033H         LINE#         44
+  C:0035H         LINE#         46
+  C:0037H         LINE#         48
+  C:0039H         LINE#         50
+  C:003AH         LINE#         51
+  C:003CH         LINE#         52
+  C:003DH         LINE#         53
+  C:003FH         LINE#         55
+  C:0041H         LINE#         58
+  C:0042H         LINE#         59
+  C:0044H         LINE#         60
+  C:0045H         LINE#         61
+  C:0047H         LINE#         63
+  C:0049H         LINE#         64
+  C:004BH         LINE#         65
+  C:004EH         LINE#         67
+  C:0050H         LINE#         68
+  C:0052H         LINE#         69
+  C:0053H         LINE#         72
+  C:0056H         LINE#         73
+  C:0059H         LINE#         74
+  C:005CH         LINE#         75
+  C:005FH         LINE#         76
+  C:0062H         LINE#         77
+  C:0065H         LINE#         78
+  C:0067H         LINE#         79
+  C:0069H         LINE#         80
+  C:006BH         LINE#         81
+  C:006DH         LINE#         82
+  -------         ENDMOD        UNSIGNED_DIVISION
+
+Program Size: data=8.0 xdata=0 code=111
+LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)

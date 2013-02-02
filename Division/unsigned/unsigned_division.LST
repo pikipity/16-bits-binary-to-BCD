@@ -1,0 +1,119 @@
+A51 MACRO ASSEMBLER  UNSIGNED_DIVISION                                                    02/02/2013 17:28:32 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.00
+OBJECT MODULE PLACED IN unsigned_division.OBJ
+ASSEMBLER INVOKED BY: C:\Keil\C51\BIN\A51.EXE unsigned_division.asm SET(SMALL) DEBUG EP
+
+LOC  OBJ            LINE     SOURCE
+
+0000                   1             ORG 0H
+0000 8051              2             JMP START
+                       3     ;;;;;;;;;;;;;;;;;;;;;;;;;
+                       4     ;Division for unsigned integer
+                       5     ;input: 16 bits: 64H 65H
+                       6     ;        8 bits: 66H
+                       7     ;output: quotient: 67H 68H
+                       8     ;        remainder: 69H
+                       9     ;Reg: A(has been protected), B(has been protected), C, 6AH
+0002                  10     division:
+0002 C0E0             11             PUSH Acc;protect Acc
+0004 C0F0             12             PUSH B;protect B
+0006 C3               13             CLR C;clear C
+                      14             ;clear result
+0007 756700           15             MOV 67H,#0
+000A 756800           16             MOV 68H,#0
+000D 756900           17             MOV 69H,#0
+0010 757000           18             MOV 70H,#0
+0013 756B00           19             MOV 6BH,#0
+                      20             ;division for high 8 bits
+0016 E566             21             MOV A,66H
+0018 F5F0             22             MOV B,A
+001A E564             23             MOV A,64H
+001C 84               24             DIV AB
+                      25             ;quotient go to high quotient of final result
+001D F567             26             MOV 67H,A
+                      27             ;remiander go to remainder of final result
+001F E5F0             28             MOV A,B
+0021 F569             29             MOV 69H,A
+                      30             ;begin 8 times of loop
+0023 756A08           31             MOV 6AH,#8
+0026                  32     division_loop:
+                      33             ;rotate 65H left with C
+0026 E565             34             MOV A,65H
+0028 33               35             RLC A
+0029 F565             36             MOV 65H,A
+                      37             ;rotate 69H left with C
+002B E569             38             MOV A,69H
+002D 33               39             RLC A
+002E F569             40             MOV 69H,A;result -> rotate 69H and 65H left together with C
+                      41             ;69H - 66H
+0030 C3               42             CLR C
+0031 E569             43             MOV A,69H
+0033 9566             44             SUBB A,66H;if negative C=1, otherwise C=0. Result in A
+                      45             ;
+0035 400A             46             JC division_quotient_set_0;if C=1, go to division_quotient_set_0
+0037                  47     division_quotient_set_1:;if C=0, go down
+0037 F569             48             MOV 69H,A;sub result go to 69H
+                      49             ;most right bit of 68H set 1
+0039 D3               50             SETB C
+003A E568             51             MOV A,68H
+003C 33               52             RLC A
+003D F568             53             MOV 68H,A
+                      54             ;go to dicision
+003F 8006             55             JMP division_loop_dicision
+0041                  56     division_quotient_set_0:;if C=1, go down
+                      57             ;most right bit of 68H set 0
+0041 C3               58             CLR C
+A51 MACRO ASSEMBLER  UNSIGNED_DIVISION                                                    02/02/2013 17:28:32 PAGE     2
+
+0042 E568             59             MOV A,68H
+0044 33               60             RLC A
+0045 F568             61             MOV 68H,A
+0047                  62     division_loop_dicision:
+0047 156A             63             DEC 6AH
+0049 E56A             64             MOV A,6AH
+004B B400D8           65             CJNE A,#0,division_loop
+                      66             ;
+004E D0F0             67             POP B;get back B
+0050 D0E0             68             POP Acc;get back Acc
+0052 22               69             RET
+                      70     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+0053                  71     START:
+0053 75A000           72             MOV P2,#0
+0056 75B000           73             MOV P3,#0
+0059 759000           74             MOV P1,#0
+005C 756446           75             MOV 64H,#46H
+005F 756501           76             MOV 65H,#01H
+0062 75662A           77             MOV 66H,#2AH
+0065 1102             78             CALL division
+0067 E568             79             MOV A,68H
+0069 F5A0             80             MOV P2,A
+006B E567             81             MOV A,67H
+006D F5B0             82             MOV P3,A
+                      83             END
+A51 MACRO ASSEMBLER  UNSIGNED_DIVISION                                                    02/02/2013 17:28:32 PAGE     3
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E                  T Y P E  V A L U E   ATTRIBUTES
+
+ACC . . . . . . . . . .  D ADDR   00E0H   A   
+B . . . . . . . . . . .  D ADDR   00F0H   A   
+DIVISION. . . . . . . .  C ADDR   0002H   A   
+DIVISION_LOOP . . . . .  C ADDR   0026H   A   
+DIVISION_LOOP_DICISION.  C ADDR   0047H   A   
+DIVISION_QUOTIENT_SET_0  C ADDR   0041H   A   
+DIVISION_QUOTIENT_SET_1  C ADDR   0037H   A   
+P1. . . . . . . . . . .  D ADDR   0090H   A   
+P2. . . . . . . . . . .  D ADDR   00A0H   A   
+P3. . . . . . . . . . .  D ADDR   00B0H   A   
+START . . . . . . . . .  C ADDR   0053H   A   
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)
