@@ -1,0 +1,259 @@
+A51 MACRO ASSEMBLER  BINARY2BCD                                                           02/02/2013 20:43:56 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.00
+OBJECT MODULE PLACED IN binary2BCD.OBJ
+ASSEMBLER INVOKED BY: C:\Keil\C51\BIN\A51.EXE binary2BCD.asm SET(SMALL) DEBUG EP
+
+LOC  OBJ            LINE     SOURCE
+
+0000                   1             ORG 0H
+0000 2131              2             JMP START
+                       3     ;;;;;;;;;;;;;;;;;;;;;;;;;
+                       4     ;Division for unsigned integer
+                       5     ;input: 16 bits: 64H 65H
+                       6     ;        8 bits: 66H
+                       7     ;output: quotient: 67H 68H
+                       8     ;        remainder: 69H
+                       9     ;Reg: A(has been protected), B(has been protected), C, 6AH
+0002                  10     division:
+0002 C0E0             11             PUSH Acc;protect Acc
+0004 C0F0             12             PUSH B;protect B
+0006 C3               13             CLR C;clear C
+                      14             ;clear result
+0007 756700           15             MOV 67H,#0
+000A 756800           16             MOV 68H,#0
+000D 756900           17             MOV 69H,#0
+0010 757000           18             MOV 70H,#0
+0013 756B00           19             MOV 6BH,#0
+                      20             ;division for high 8 bits
+0016 E566             21             MOV A,66H
+0018 F5F0             22             MOV B,A
+001A E564             23             MOV A,64H
+001C 84               24             DIV AB
+                      25             ;quotient go to high quotient of final result
+001D F567             26             MOV 67H,A
+                      27             ;remiander go to remainder of final result
+001F E5F0             28             MOV A,B
+0021 F569             29             MOV 69H,A
+                      30             ;begin 8 times of loop
+0023 756A08           31             MOV 6AH,#8
+0026                  32     division_loop:
+                      33             ;rotate 65H left with C
+0026 E565             34             MOV A,65H
+0028 33               35             RLC A
+0029 F565             36             MOV 65H,A
+                      37             ;rotate 69H left with C
+002B E569             38             MOV A,69H
+002D 33               39             RLC A
+002E F569             40             MOV 69H,A;result -> rotate 69H and 65H left together with C
+                      41             ;69H - 66H
+0030 C3               42             CLR C
+0031 E569             43             MOV A,69H
+0033 9566             44             SUBB A,66H;if negative C=1, otherwise C=0. Result in A
+                      45             ;
+0035 400A             46             JC division_quotient_set_0;if C=1, go to division_quotient_set_0
+0037                  47     division_quotient_set_1:;if C=0, go down
+0037 F569             48             MOV 69H,A;sub result go to 69H
+                      49             ;most right bit of 68H set 1
+0039 D3               50             SETB C
+003A E568             51             MOV A,68H
+003C 33               52             RLC A
+003D F568             53             MOV 68H,A
+                      54             ;go to dicision
+003F 8006             55             JMP division_loop_dicision
+0041                  56     division_quotient_set_0:;if C=1, go down
+                      57             ;most right bit of 68H set 0
+0041 C3               58             CLR C
+A51 MACRO ASSEMBLER  BINARY2BCD                                                           02/02/2013 20:43:56 PAGE     2
+
+0042 E568             59             MOV A,68H
+0044 33               60             RLC A
+0045 F568             61             MOV 68H,A
+0047                  62     division_loop_dicision:
+0047 156A             63             DEC 6AH
+0049 E56A             64             MOV A,6AH
+004B B400D8           65             CJNE A,#0,division_loop
+                      66             ;
+004E D0F0             67             POP B;get back B
+0050 D0E0             68             POP Acc;get back Acc
+0052 22               69             RET
+                      70     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                      71     ;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                      72     ;Convert a 16 bits binary to BCD code
+                      73     ;input: 6BH,6CH
+                      74     ;output: 6DH,6EH,6FH
+                      75     ;Reg: A(have been protected), B(have been protected), C, 50H
+0053                  76     convert:
+0053 C0E0             77             PUSH Acc;protect Acc
+0055 C0F0             78             PUSH B;protect B
+                      79             ;clear result
+0057 756D00           80             MOV 6DH,#0
+005A 756E00           81             MOV 6EH,#0
+005D 756F00           82             MOV 6FH,#0
+                      83             ;division input with 10.
+0060 75660A           84             MOV 66H,#10
+0063 E56C             85             MOV A,6CH
+0065 F565             86             MOV 65H,A
+0067 E56B             87             MOV A,6BH
+0069 F564             88             MOV 64H,A
+006B 1102             89             CALL division
+                      90             ;quotient -> 6BH,6CH to next division
+006D E568             91             MOV A,68H
+006F F56C             92             MOV 6CH,A
+0071 E567             93             MOV A,67H
+0073 F56B             94             MOV 6BH,A
+                      95             ;remainder -> low 6FH
+0075 E569             96             MOV A,69H
+0077 F56F             97             MOV 6FH,A
+                      98             ;division 6BH,6CH with 10
+0079 75660A           99             MOV 66H,#10
+007C E56C            100             MOV A,6CH
+007E F565            101             MOV 65H,A
+0080 E56B            102             MOV A,6BH
+0082 F564            103             MOV 64H,A
+0084 1102            104             CALL division
+                     105             ;quotient -> 6BH,6CH to next division
+0086 E568            106             MOV A,68H
+0088 F56C            107             MOV 6CH,A
+008A E567            108             MOV A,67H
+008C F56B            109             MOV 6BH,A
+                     110             ;remainder -> high 6FH
+008E 755004          111             MOV 50H,#4
+0091                 112     turn_left_4_6F:
+0091 E569            113             MOV A,69H
+0093 2569            114             ADD A,69H
+0095 F569            115             MOV 69H,A
+0097 1550            116             DEC 50H
+0099 E550            117             MOV A,50H
+009B B400F3          118             CJNE A,#0, turn_left_4_6F
+009E E569            119             MOV A,69H
+00A0 256F            120             ADD A,6FH
+00A2 F56F            121             MOV 6FH,A
+                     122             ;division 6BH,6CH with 10
+00A4 75660A          123             MOV 66H,#10
+00A7 E56C            124             MOV A,6CH
+A51 MACRO ASSEMBLER  BINARY2BCD                                                           02/02/2013 20:43:56 PAGE     3
+
+00A9 F565            125             MOV 65H,A
+00AB E56B            126             MOV A,6BH
+00AD F564            127             MOV 64H,A
+00AF 1102            128             CALL division 
+                     129             ;quotient -> 6BH,6CH to next division
+00B1 E568            130             MOV A,68H
+00B3 F56C            131             MOV 6CH,A
+00B5 E567            132             MOV A,67H
+00B7 F56B            133             MOV 6BH,A
+                     134             ;remainder -> low 6EH
+00B9 E569            135             MOV A,69H
+00BB F56E            136             MOV 6EH,A
+                     137             ;division 6BH,6CH with 10
+00BD 75660A          138             MOV 66H,#10
+00C0 E56C            139             MOV A,6CH
+00C2 F565            140             MOV 65H,A
+00C4 E56B            141             MOV A,6BH
+00C6 F564            142             MOV 64H,A
+00C8 1102            143             CALL division 
+                     144             ;quotient -> 6BH,6CH to next division
+00CA E568            145             MOV A,68H
+00CC F56C            146             MOV 6CH,A
+00CE E567            147             MOV A,67H
+00D0 F56B            148             MOV 6BH,A
+                     149             ;remainder -> high 6EH
+00D2 755004          150             MOV 50H,#4
+00D5                 151     turn_left_4_6E:
+00D5 E569            152             MOV A,69H
+00D7 2569            153             ADD A,69H
+00D9 F569            154             MOV 69H,A
+00DB 1550            155             DEC 50H
+00DD E550            156             MOV A,50H
+00DF B400F3          157             CJNE A,#0, turn_left_4_6E
+00E2 E569            158             MOV A,69H
+00E4 256E            159             ADD A,6EH
+00E6 F56E            160             MOV 6EH,A
+                     161             ;division 6BH,6CH with 10
+00E8 75660A          162             MOV 66H,#10
+00EB E56C            163             MOV A,6CH
+00ED F565            164             MOV 65H,A
+00EF E56B            165             MOV A,6BH
+00F1 F564            166             MOV 64H,A
+00F3 1102            167             CALL division 
+                     168             ;quotient -> 6BH,6CH to next division
+00F5 E568            169             MOV A,68H
+00F7 F56C            170             MOV 6CH,A
+00F9 E567            171             MOV A,67H
+00FB F56B            172             MOV 6BH,A
+                     173             ;remainder -> low 6DH
+00FD E569            174             MOV A,69H
+00FF F56D            175             MOV 6DH,A
+                     176             ;division 6BH,6CH with 10
+0101 75660A          177             MOV 66H,#10
+0104 E56C            178             MOV A,6CH
+0106 F565            179             MOV 65H,A
+0108 E56B            180             MOV A,6BH
+010A F564            181             MOV 64H,A
+010C 1102            182             CALL division 
+                     183             ;quotient -> 6BH,6CH to next division
+010E E568            184             MOV A,68H
+0110 F56C            185             MOV 6CH,A
+0112 E567            186             MOV A,67H
+0114 F56B            187             MOV 6BH,A
+                     188             ;remainder -> high 6DH
+0116 755004          189             MOV 50H,#4
+0119                 190     turn_left_4_6D:
+A51 MACRO ASSEMBLER  BINARY2BCD                                                           02/02/2013 20:43:56 PAGE     4
+
+0119 E569            191             MOV A,69H
+011B 2569            192             ADD A,69H
+011D F569            193             MOV 69H,A
+011F 1550            194             DEC 50H
+0121 E550            195             MOV A,50H
+0123 B400F3          196             CJNE A,#0, turn_left_4_6D
+0126 E569            197             MOV A,69H
+0128 256D            198             ADD A,6DH
+012A F56D            199             MOV 6DH,A
+                     200             ;
+012C D0F0            201             POP B;get back B
+012E D0E0            202             POP Acc;get back A      
+0130 22              203             RET
+                     204     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+0131                 205     START:
+0131 756BFF          206             MOV 6BH,#high 65444
+0134 756CA4          207             MOV 6CH,#low 65444
+0137 1153            208             CALL convert
+0139 E56F            209             MOV A,6FH
+013B F590            210             MOV P1,A
+013D E56E            211             MOV A,6EH
+013F F5B0            212             MOV P3,A
+0141 E56D            213             MOV A,6DH
+0143 F5A0            214             MOV P2,A
+                     215             END
+A51 MACRO ASSEMBLER  BINARY2BCD                                                           02/02/2013 20:43:56 PAGE     5
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E                  T Y P E  V A L U E   ATTRIBUTES
+
+ACC . . . . . . . . . .  D ADDR   00E0H   A   
+B . . . . . . . . . . .  D ADDR   00F0H   A   
+CONVERT . . . . . . . .  C ADDR   0053H   A   
+DIVISION. . . . . . . .  C ADDR   0002H   A   
+DIVISION_LOOP . . . . .  C ADDR   0026H   A   
+DIVISION_LOOP_DICISION.  C ADDR   0047H   A   
+DIVISION_QUOTIENT_SET_0  C ADDR   0041H   A   
+DIVISION_QUOTIENT_SET_1  C ADDR   0037H   A   
+P1. . . . . . . . . . .  D ADDR   0090H   A   
+P2. . . . . . . . . . .  D ADDR   00A0H   A   
+P3. . . . . . . . . . .  D ADDR   00B0H   A   
+START . . . . . . . . .  C ADDR   0131H   A   
+TURN_LEFT_4_6D. . . . .  C ADDR   0119H   A   
+TURN_LEFT_4_6E. . . . .  C ADDR   00D5H   A   
+TURN_LEFT_4_6F. . . . .  C ADDR   0091H   A   
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)

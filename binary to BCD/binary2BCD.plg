@@ -1,0 +1,39 @@
+<html>
+<body>
+<pre>
+<h1>µVision3 Build Log</h1>
+<h2>Project:</h2>
+C:\Documents and Settings\Administrator\My Documents\GitHub\16-bits-binary-to-BCD\binary to BCD\binary2BCD.uv2
+Project File Date:  02/02/2013
+
+<h2>Output:</h2>
+Build target 'Target 1'
+assembling binary2BCD.asm...
+binary2BCD.asm(202): error A22: EXPRESSION TYPE DOES NOT MATCH INSTRUCTION
+Target not created
+Build target 'Target 1'
+assembling binary2BCD.asm...
+linking...
+Program Size: data=8.0 xdata=0 code=310
+"binary2BCD" - 0 Error(s), 0 Warning(s).
+Build target 'Target 1'
+assembling binary2BCD.asm...
+linking...
+Program Size: data=8.0 xdata=0 code=310
+creating hex file from "binary2BCD"...
+"binary2BCD" - 0 Error(s), 0 Warning(s).
+Build target 'Target 1'
+assembling binary2BCD.asm...
+linking...
+Program Size: data=8.0 xdata=0 code=322
+creating hex file from "binary2BCD"...
+"binary2BCD" - 0 Error(s), 0 Warning(s).
+Build target 'Target 1'
+assembling binary2BCD.asm...
+linking...
+Program Size: data=8.0 xdata=0 code=325
+creating hex file from "binary2BCD"...
+"binary2BCD" - 0 Error(s), 0 Warning(s).
+</pre>
+</body>
+</html>
