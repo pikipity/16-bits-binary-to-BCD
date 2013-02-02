@@ -1,0 +1,65 @@
+A51 MACRO ASSEMBLER  SUB_UNSIGNED                                                         02/01/2013 15:37:26 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.00
+OBJECT MODULE PLACED IN sub_unsigned.OBJ
+ASSEMBLER INVOKED BY: C:\Keil\C51\BIN\A51.EXE sub_unsigned.asm SET(SMALL) DEBUG EP
+
+LOC  OBJ            LINE     SOURCE
+
+0000                   1             ORG 0H
+0000 8012              2             JMP START
+                       3     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                       4     ;Subtraction of unsigned number
+                       5     ;input: 2 bytes: 76H 77H
+                       6     ;               2 bytes: 78H 79H
+                       7     ;output: C and 2bytes: 7AH 7BH
+                       8     ;Reg: A(have been protected), C
+0002                   9     Subtraction:
+0002 C0E0             10             PUSH Acc;protect Acc
+0004 C3               11             CLR C;Clear C
+                      12             ;subtraction of low 8 bits
+0005 E577             13             MOV A,77H
+0007 9579             14             SUBB A,79H
+0009 F57B             15             MOV 7BH,A
+                      16             ;subtraction of high 8 bits
+000B E576             17             MOV A,76H
+000D 9578             18             SUBB A,78H
+000F F57A             19             MOV 7AH,A
+                      20             ;
+0011 D0E0             21             POP Acc;get back Acc
+0013 22               22             RET
+                      23     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                      24     
+0014                  25     START:
+0014 7576FF           26             MOV 76H,#0FFH
+0017 757700           27             MOV 77H,#00H
+001A 757800           28             MOV 78H,#00H
+001D 757901           29             MOV 79H,#01H
+0020 1102             30             CALL Subtraction
+0022 E57B             31             MOV A,7BH
+0024 F5B0             32             MOV P3,A
+0026 E57A             33             MOV A,7AH
+0028 F5A0             34             MOV P2,A
+                      35             END
+                             
+                                     
+A51 MACRO ASSEMBLER  SUB_UNSIGNED                                                         02/01/2013 15:37:26 PAGE     2
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E             T Y P E  V A L U E   ATTRIBUTES
+
+ACC. . . . . . . .  D ADDR   00E0H   A   
+P2 . . . . . . . .  D ADDR   00A0H   A   
+P3 . . . . . . . .  D ADDR   00B0H   A   
+START. . . . . . .  C ADDR   0014H   A   
+SUBTRACTION. . . .  C ADDR   0002H   A   
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)

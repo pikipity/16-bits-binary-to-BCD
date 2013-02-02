@@ -1,0 +1,62 @@
+A51 MACRO ASSEMBLER  SUMMATION_UNSIGNED                                                   02/01/2013 15:11:25 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.00
+OBJECT MODULE PLACED IN Summation_unsigned.OBJ
+ASSEMBLER INVOKED BY: C:\Keil\C51\BIN\A51.EXE Summation_unsigned.asm SET(SMALL) DEBUG EP
+
+LOC  OBJ            LINE     SOURCE
+
+0000                   1             ORG 0H
+0000 8012              2             JMP START
+                       3     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                       4     ;sumation of unsigned number
+                       5     ;input: 16 bits: 70H 71H
+                       6     ;       16 bits: 72H 73H
+                       7     ;output: C and 16 bits 74H 75H
+                       8     ;Reg: A (have been protected), C
+0002                   9     SUM_unsigned:
+0002 C0E0             10             PUSH Acc;protect Acc
+0004 C3               11             CLR C;clear C
+                      12             ;Add low 8 bits
+0005 E571             13             MOV A,71H
+0007 3573             14             ADDC A,73H
+0009 F575             15             MOV 75H,A
+                      16             ;Add high 8 bits and C
+000B E570             17             MOV A,70H
+000D 3572             18             ADDC A,72H
+000F F574             19             MOV 74H,A
+                      20             ; 
+0011 D0E0             21             POP Acc;return Acc
+0013 22               22             RET
+                      23             
+0014                  24     START:
+0014 75703A           25             MOV 70H,#3AH
+0017 75719F           26             MOV 71H,#9FH
+001A 7572FF           27             MOV 72H,#0FFH
+001D 7573EF           28             MOV 73H,#0EFH
+0020 1102             29             CALL SUM_unsigned
+0022 E575             30             MOV A,75H
+0024 F5B0             31             MOV P3,A
+0026 E574             32             MOV A,74H
+0028 F5A0             33             MOV P2,A
+                      34             END
+A51 MACRO ASSEMBLER  SUMMATION_UNSIGNED                                                   02/01/2013 15:11:25 PAGE     2
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E             T Y P E  V A L U E   ATTRIBUTES
+
+ACC. . . . . . . .  D ADDR   00E0H   A   
+P2 . . . . . . . .  D ADDR   00A0H   A   
+P3 . . . . . . . .  D ADDR   00B0H   A   
+START. . . . . . .  C ADDR   0014H   A   
+SUM_UNSIGNED . . .  C ADDR   0002H   A   
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)
