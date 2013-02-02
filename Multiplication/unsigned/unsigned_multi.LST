@@ -1,0 +1,83 @@
+A51 MACRO ASSEMBLER  UNSIGNED_MULTI                                                       02/01/2013 16:03:13 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.00
+OBJECT MODULE PLACED IN unsigned_multi.OBJ
+ASSEMBLER INVOKED BY: C:\Keil\C51\BIN\A51.EXE unsigned_multi.asm SET(SMALL) DEBUG EP
+
+LOC  OBJ            LINE     SOURCE
+
+0000                   1             ORG 0H
+0000 8030              2             JMP START
+                       3     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                       4     ;Multiplication of unsigned number
+                       5     ;input: 16 bits: 7CH 7DH
+                       6     ;        8 bits:     7FH
+                       7     ;output 24 bits: 60H 61H 62H
+                       8     ;REG:A(have been protected), B(have been protected), 63H, C
+0002                   9     Multi:
+0002 C0E0             10             PUSH Acc;protect Acc
+0004 C0F0             11             PUSH B;protect B
+                      12             ;Multiply low 8 bits
+0006 E57D             13             MOV A,7DH
+0008 F5F0             14             MOV B,A
+000A E57F             15             MOV A,7FH
+000C A4               16             MUL AB
+000D F562             17             MOV 62H,A
+000F E5F0             18             MOV A,B
+0011 F561             19             MOV 61H,A
+                      20             ;Multiply high 8 bits
+0013 E57C             21             MOV A,7CH
+0015 F5F0             22             MOV B,A
+0017 E57F             23             MOV A,7FH
+0019 A4               24             MUL AB
+001A F563             25             MOV 63H,A
+001C E5F0             26             MOV A,B
+001E F560             27             MOV 60H,A
+                      28             ;Summation center 8 bits
+0020 C3               29             CLR C
+0021 E563             30             MOV A,63H
+0023 2561             31             ADD     A,61H
+0025 F561             32             MOV 61H,A
+0027 E560             33             MOV A,60H
+0029 3400             34             ADDC A,#0
+002B F560             35             MOV 60H,A
+                      36             ;
+002D D0F0             37             POP B;back B
+002F D0E0             38             POP Acc;back Acc
+0031 22               39             RET
+                      40     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                      41     
+0032                  42     START:
+0032 757C10           43             MOV 7CH,#10H
+0035 757DEF           44             MOV 7DH,#0EFH
+0038 757FCD           45             MOV 7FH,#0CDH
+003B 1102             46             CALL MULTI
+003D E560             47             MOV A,60H
+003F F590             48             MOV P1,A
+0041 E561             49             MOV A,61H
+0043 F5A0             50             MOV P2,A
+0045 E562             51             MOV A,62H
+0047 F5B0             52             MOV P3,A
+                      53             END
+A51 MACRO ASSEMBLER  UNSIGNED_MULTI                                                       02/01/2013 16:03:13 PAGE     2
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E             T Y P E  V A L U E   ATTRIBUTES
+
+ACC. . . . . . . .  D ADDR   00E0H   A   
+B. . . . . . . . .  D ADDR   00F0H   A   
+MULTI. . . . . . .  C ADDR   0002H   A   
+P1 . . . . . . . .  D ADDR   0090H   A   
+P2 . . . . . . . .  D ADDR   00A0H   A   
+P3 . . . . . . . .  D ADDR   00B0H   A   
+START. . . . . . .  C ADDR   0032H   A   
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)
