@@ -1,0 +1,127 @@
+BL51 BANKED LINKER/LOCATER V6.00                                                        02/07/2013  00:57:22  PAGE 1
+
+
+BL51 BANKED LINKER/LOCATER V6.00, INVOKED BY:
+C:\KEIL\C51\BIN\BL51.EXE display.obj TO display
+
+
+INPUT MODULES INCLUDED:
+  display.obj (DISPLAY)
+
+
+LINK MAP OF MODULE:  display (DISPLAY)
+
+
+            TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
+            -----------------------------------------------------
+
+            * * * * * * *   D A T A   M E M O R Y   * * * * * * *
+            REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
+
+            * * * * * * *   C O D E   M E M O R Y   * * * * * * *
+            CODE    0000H     00BCH     ABSOLUTE     
+
+
+
+SYMBOL TABLE OF MODULE:  display (DISPLAY)
+
+  VALUE           TYPE          NAME
+  ----------------------------------
+
+  -------         MODULE        DISPLAY
+  D:00E0H         SYMBOL        ACC
+  C:0079H         SYMBOL        ADD_5AH
+  C:0074H         SYMBOL        CLEAR_5AH
+  C:0033H         SYMBOL        DISPLAY
+  C:003EH         SYMBOL        DISPLAY0
+  C:0048H         SYMBOL        DISPLAY1
+  C:0052H         SYMBOL        DISPLAY2
+  C:005CH         SYMBOL        DISPLAY3
+  C:0066H         SYMBOL        DISPLAY4
+  C:007DH         SYMBOL        DISPLAYEND
+  C:006DH         SYMBOL        DISPLAY_END
+  B:00A8H.7       SYMBOL        EA
+  B:00A8H.1       SYMBOL        ET0
+  C:0045H         SYMBOL        NEXT1
+  C:004FH         SYMBOL        NEXT2
+  C:0059H         SYMBOL        NEXT3
+  C:0063H         SYMBOL        NEXT4
+  D:0090H         SYMBOL        P1
+  D:00A0H         SYMBOL        P2
+  D:0081H         SYMBOL        SP
+  C:0090H         SYMBOL        START
+  C:00BAH         SYMBOL        STOP
+  C:0086H         SYMBOL        TABLE
+  D:008CH         SYMBOL        TH0
+  D:008AH         SYMBOL        TL0
+  D:0089H         SYMBOL        TMOD
+  B:0088H.4       SYMBOL        TR0
+  C:0000H         LINE#         2
+  C:000BH         LINE#         4
+  C:0030H         LINE#         6
+BL51 BANKED LINKER/LOCATER V6.00                                                      02/07/2013  00:57:22  PAGE 2
+
+
+  C:0033H         LINE#         15
+  C:0035H         LINE#         17
+  C:0037H         LINE#         18
+  C:0039H         LINE#         20
+  C:003BH         LINE#         21
+  C:003EH         LINE#         23
+  C:0040H         LINE#         24
+  C:0041H         LINE#         25
+  C:0043H         LINE#         26
+  C:0045H         LINE#         28
+  C:0048H         LINE#         30
+  C:004AH         LINE#         31
+  C:004BH         LINE#         32
+  C:004DH         LINE#         33
+  C:004FH         LINE#         35
+  C:0052H         LINE#         37
+  C:0054H         LINE#         38
+  C:0055H         LINE#         39
+  C:0057H         LINE#         40
+  C:0059H         LINE#         42
+  C:005CH         LINE#         44
+  C:005EH         LINE#         45
+  C:005FH         LINE#         46
+  C:0061H         LINE#         47
+  C:0063H         LINE#         49
+  C:0066H         LINE#         51
+  C:0068H         LINE#         52
+  C:0069H         LINE#         53
+  C:006BH         LINE#         54
+  C:006DH         LINE#         56
+  C:006FH         LINE#         57
+  C:0072H         LINE#         58
+  C:0074H         LINE#         60
+  C:0077H         LINE#         61
+  C:0079H         LINE#         63
+  C:007BH         LINE#         64
+  C:007DH         LINE#         67
+  C:0080H         LINE#         68
+  C:0083H         LINE#         69
+  C:0085H         LINE#         70
+  C:0090H         LINE#         78
+  C:0093H         LINE#         79
+  C:0096H         LINE#         80
+  C:0099H         LINE#         81
+  C:009CH         LINE#         84
+  C:009FH         LINE#         85
+  C:00A2H         LINE#         86
+  C:00A5H         LINE#         89
+  C:00A7H         LINE#         91
+  C:00A9H         LINE#         92
+  C:00ABH         LINE#         93
+  C:00AEH         LINE#         94
+  C:00B1H         LINE#         95
+  C:00B4H         LINE#         96
+  C:00B7H         LINE#         97
+  C:00BAH         LINE#         99
+  -------         ENDMOD        DISPLAY
+BL51 BANKED LINKER/LOCATER V6.00                                                      02/07/2013  00:57:22  PAGE 3
+
+
+
+Program Size: data=8.0 xdata=0 code=188
+LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)

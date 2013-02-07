@@ -1,0 +1,154 @@
+A51 MACRO ASSEMBLER  DISPLAY                                                              02/07/2013 00:57:22 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.00
+OBJECT MODULE PLACED IN display.OBJ
+ASSEMBLER INVOKED BY: C:\Keil\C51\BIN\A51.EXE display.asm SET(SMALL) DEBUG EP
+
+LOC  OBJ            LINE     SOURCE
+
+0000                   1             ORG 0H
+0000 0190              2             JMP START
+000B                   3             ORG 0BH;use timer 0
+000B 8026              4             JMP DISPLAY
+0030                   5             ORG 30H;avoid interval address
+0030 758130            6             MOV SP,#30H
+                       7     ;;;;;;;;;;;;;;;;;;;;;;;;;;
+                       8     ;Display five 7-seg LEDs
+                       9     ;note: the most left LED is number 1
+                      10     ;input: 5FH, 5EH, 5DH, 5CH, 5BH
+                      11     ;output: P2.0, P2.1, P2.2 -> choose LED
+                      12     ;        P1 -> display
+                      13     ;REG: A (has been protect), DPTR, 5AH
+0033                  14     DISPLAY:
+0033 C0E0             15             PUSH Acc
+                      16             ;choose LED
+0035 E55A             17             MOV A,5AH
+0037 F5A0             18             MOV P2,A
+                      19             ;choose number
+0039 E55A             20             MOV A,5AH
+003B B40007           21             CJNE A,#0,next1
+003E                  22     display0:
+003E E55F             23             MOV A,5FH
+0040 93               24             MOVC A,@A+DPTR
+0041 F590             25             MOV P1,A
+0043 8028             26             JMP display_end
+0045                  27     next1:
+0045 B40107           28             CJNE A,#1,next2
+0048                  29     display1:
+0048 E55E             30             MOV A,5EH
+004A 93               31             MOVC A,@A+DPTR
+004B F590             32             MOV P1,A
+004D 801E             33             JMP display_end
+004F                  34     next2:
+004F B40207           35             CJNE A,#2,next3
+0052                  36     display2:
+0052 E55D             37             MOV A,5DH
+0054 93               38             MOVC A,@A+DPTR
+0055 F590             39             MOV P1,A
+0057 8014             40             JMP display_end
+0059                  41     next3:
+0059 B40307           42             CJNE A,#3,next4
+005C                  43     display3:
+005C E55C             44             MOV A,5CH
+005E 93               45             MOVC A,@A+DPTR
+005F F590             46             MOV P1,A
+0061 800A             47             JMP display_end
+0063                  48     next4:
+0063 B40407           49             CJNE A,#4,display_end
+0066                  50     display4:
+0066 E55B             51             MOV A,5BH
+0068 93               52             MOVC A,@A+DPTR
+0069 F590             53             MOV P1,A
+006B 8000             54             JMP display_end
+006D                  55     display_end:
+006D E55A             56             MOV A,5AH
+006F B40407           57             CJNE A,#4,add_5AH
+0072 8000             58             JMP clear_5AH
+A51 MACRO ASSEMBLER  DISPLAY                                                              02/07/2013 00:57:22 PAGE     2
+
+0074                  59     clear_5AH:
+0074 755A00           60             MOV 5AH,#0
+0077 8004             61             JMP displayend
+0079                  62     add_5AH:
+0079 055A             63             INC 5AH
+007B 8000             64             JMP displayend
+                      65             ;
+007D                  66     displayend:
+007D 758A00           67             MOV TL0,#low (65536-0)
+0080 758C00           68             MOV TH0,#high (65536-0)
+0083 D0E0             69             POP Acc
+0085 32               70             RETI            
+                      71     ;table of LED
+0086                  72     table:
+0086 3F065B4F         73             DB 3FH,06H,5BH,4FH,66H,6DH,7DH,07H,7FH,6FH
+008A 666D7D07                
+008E 7F6F                    
+                      74     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+0090                  75     START:
+                      76     ;;;;;;;;;;;;;;;;;;;;;;;;;;
+                      77     ;Display initial
+0090 759000           78             MOV P1,#0
+0093 75A0FF           79             MOV P2,#0FFH
+0096 755A00           80             MOV 5AH,#0
+0099 900086           81             MOV DPTR,#table
+                      82     ;;;;;;;;;;;;;;;;;;;;;;;;;;
+                      83     ;Timer initial
+009C 758901           84             MOV TMOD,#1;use timer 0 mode 1
+009F 758AB0           85             MOV TL0,#low (65536-50000)
+00A2 758C3C           86             MOV TH0,#high (65536-50000)
+                      87     ;;;;;;;;;;;;;;;;;;;;;;;;;;;
+                      88     ;Interval initial
+00A5 D2A9             89             SETB ET0;start timer0 interval
+                      90             ;
+00A7 D2AF             91             SETB EA;start interval
+00A9 D28C             92             SETB TR0;start timing
+00AB 755F01           93             MOV 5FH,#1
+00AE 755E02           94             MOV 5EH,#2
+00B1 755D03           95             MOV 5DH,#3
+00B4 755C04           96             MOV 5CH,#4
+00B7 755B05           97             MOV 5BH,#5
+00BA                  98     STOP:
+00BA 80FE             99             JMP STOP
+                     100             END     
+A51 MACRO ASSEMBLER  DISPLAY                                                              02/07/2013 00:57:22 PAGE     3
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E             T Y P E  V A L U E   ATTRIBUTES
+
+ACC. . . . . . . .  D ADDR   00E0H   A   
+ADD_5AH. . . . . .  C ADDR   0079H   A   
+CLEAR_5AH. . . . .  C ADDR   0074H   A   
+DISPLAY. . . . . .  C ADDR   0033H   A   
+DISPLAY0 . . . . .  C ADDR   003EH   A   
+DISPLAY1 . . . . .  C ADDR   0048H   A   
+DISPLAY2 . . . . .  C ADDR   0052H   A   
+DISPLAY3 . . . . .  C ADDR   005CH   A   
+DISPLAY4 . . . . .  C ADDR   0066H   A   
+DISPLAYEND . . . .  C ADDR   007DH   A   
+DISPLAY_END. . . .  C ADDR   006DH   A   
+EA . . . . . . . .  B ADDR   00A8H.7 A   
+ET0. . . . . . . .  B ADDR   00A8H.1 A   
+NEXT1. . . . . . .  C ADDR   0045H   A   
+NEXT2. . . . . . .  C ADDR   004FH   A   
+NEXT3. . . . . . .  C ADDR   0059H   A   
+NEXT4. . . . . . .  C ADDR   0063H   A   
+P1 . . . . . . . .  D ADDR   0090H   A   
+P2 . . . . . . . .  D ADDR   00A0H   A   
+SP . . . . . . . .  D ADDR   0081H   A   
+START. . . . . . .  C ADDR   0090H   A   
+STOP . . . . . . .  C ADDR   00BAH   A   
+TABLE. . . . . . .  C ADDR   0086H   A   
+TH0. . . . . . . .  D ADDR   008CH   A   
+TL0. . . . . . . .  D ADDR   008AH   A   
+TMOD . . . . . . .  D ADDR   0089H   A   
+TR0. . . . . . . .  B ADDR   0088H.4 A   
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)
