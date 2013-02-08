@@ -1,8 +1,8 @@
 	ORG 0H
 	JMP START
-	ORG 0BH;use timer 0
+	ORG 0BH    ;0BH is the timer0 interrupt address
 	JMP DISPLAY
-	ORG 30H;avoid interval address
+	ORG 30H    ;avoid interrupt address
 	MOV SP,#30H
 ;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;Display five 7-seg LEDs
@@ -64,8 +64,8 @@ add_5AH:
 	JMP displayend
 	;
 displayend:
-	MOV TL0,#low (65536-0)
-	MOV TH0,#high (65536-0)
+	MOV TL0,#low (65536-20000)
+	MOV TH0,#high (65536-20000)
 	POP Acc
 	RETI		
 ;table of LED
@@ -82,19 +82,20 @@ START:
 ;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;Timer initial
 	MOV TMOD,#1;use timer 0 mode 1
-	MOV TL0,#low (65536-50000)
-	MOV TH0,#high (65536-50000)
+	MOV TL0,#low (65536-20000)
+	MOV TH0,#high (65536-20000)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;Interval initial
+;Interrupt initial
 	SETB ET0;start timer0 interval
 	;
-	SETB EA;start interval
-	SETB TR0;start timing
+	SETB EA    ;start interrupt
+	SETB TR0   ;start timing
 	MOV 5FH,#1
 	MOV 5EH,#2
 	MOV 5DH,#3
 	MOV 5CH,#4
 	MOV 5BH,#5
+	;
 STOP:
 	JMP STOP
-	END	
+	END
