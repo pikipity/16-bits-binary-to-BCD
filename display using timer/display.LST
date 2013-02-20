@@ -1,4 +1,4 @@
-A51 MACRO ASSEMBLER  DISPLAY                                                              02/07/2013 00:57:22 PAGE     1
+A51 MACRO ASSEMBLER  DISPLAY                                                              02/08/2013 23:09:18 PAGE     1
 
 
 MACRO ASSEMBLER A51 V8.00
@@ -65,7 +65,7 @@ LOC  OBJ            LINE     SOURCE
 006D E55A             56             MOV A,5AH
 006F B40407           57             CJNE A,#4,add_5AH
 0072 8000             58             JMP clear_5AH
-A51 MACRO ASSEMBLER  DISPLAY                                                              02/07/2013 00:57:22 PAGE     2
+A51 MACRO ASSEMBLER  DISPLAY                                                              02/08/2013 23:09:18 PAGE     2
 
 0074                  59     clear_5AH:
 0074 755A00           60             MOV 5AH,#0
@@ -111,7 +111,7 @@ LOC  OBJ            LINE     SOURCE
 00BA                  98     STOP:
 00BA 80FE             99             JMP STOP
                      100             END     
-A51 MACRO ASSEMBLER  DISPLAY                                                              02/07/2013 00:57:22 PAGE     3
+A51 MACRO ASSEMBLER  DISPLAY                                                              02/08/2013 23:09:18 PAGE     3
 
 SYMBOL TABLE LISTING
 ------ ----- -------
